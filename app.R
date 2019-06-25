@@ -17,7 +17,7 @@ library(scales)
 #                      "Breitbart", "New_York_Times", "Buzzfeed_News",
 #                      "National_Review", "Business_Insider", "Talking_Points_Memo",
 #                      "Fox_News", "CNN", "Guardian", "NPR", "Washington_Post")
-publications <- list("All", "Breitbart")
+publications <- list("All")
 
 
 # load data using new tidy format data
