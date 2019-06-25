@@ -44,20 +44,20 @@ load_data <- function(filename) {
 # "National_Review", "Business_Insider", "Talking_Points_Memo",
 # "Fox_News", "CNN", "Guardian", "NPR", "Washington_Post")
 data_ <- load_data("Data/Tidy_Data/tidy_sent_data_All.csv")
-data_atl <- load_data("Data/Tidy_Data/tidy_sent_data_Atlantic.csv")
-data_rtr <- load_data("Data/Tidy_Data/tidy_sent_data_Reuters.csv")
-data_NYP <- load_data("Data/Tidy_Data/tidy_sent_data_New_York_Post.csv")
-data_bb <- load_data("Data/Tidy_Data/tidy_sent_data_Breitbart.csv")
-data_NYT <- load_data("Data/Tidy_Data/tidy_sent_data_New_York_Times.csv")
-data_Buzz <- load_data("Data/Tidy_Data/tidy_sent_data_Buzzfeed_News.csv")
-data_ntl <- load_data("Data/Tidy_Data/tidy_sent_data_National_Review.csv")
-data_busin <- load_data("Data/Tidy_Data/tidy_sent_data_Business_Insider.csv")
-data_tpm <- load_data("Data/Tidy_Data/tidy_sent_data_Talking_Points_Memo.csv")
-data_FOX <- load_data("Data/Tidy_Data/tidy_sent_data_Fox_News.csv")
-data_CNN <- load_data("Data/Tidy_Data/tidy_sent_data_CNN.csv")
-data_gdn <- load_data("Data/Tidy_Data/tidy_sent_data_Guardian.csv")
-data_NPR <- load_data("Data/Tidy_Data/tidy_sent_data_NPR.csv")
-data_WaPo <- load_data("Data/Tidy_Data/tidy_sent_data_Washington_Post.csv")
+# data_atl <- load_data("Data/Tidy_Data/tidy_sent_data_Atlantic.csv")
+# data_rtr <- load_data("Data/Tidy_Data/tidy_sent_data_Reuters.csv")
+# data_NYP <- load_data("Data/Tidy_Data/tidy_sent_data_New_York_Post.csv")
+# data_bb <- load_data("Data/Tidy_Data/tidy_sent_data_Breitbart.csv")
+# data_NYT <- load_data("Data/Tidy_Data/tidy_sent_data_New_York_Times.csv")
+# data_Buzz <- load_data("Data/Tidy_Data/tidy_sent_data_Buzzfeed_News.csv")
+# data_ntl <- load_data("Data/Tidy_Data/tidy_sent_data_National_Review.csv")
+# data_busin <- load_data("Data/Tidy_Data/tidy_sent_data_Business_Insider.csv")
+# data_tpm <- load_data("Data/Tidy_Data/tidy_sent_data_Talking_Points_Memo.csv")
+# data_FOX <- load_data("Data/Tidy_Data/tidy_sent_data_Fox_News.csv")
+# data_CNN <- load_data("Data/Tidy_Data/tidy_sent_data_CNN.csv")
+# data_gdn <- load_data("Data/Tidy_Data/tidy_sent_data_Guardian.csv")
+# data_NPR <- load_data("Data/Tidy_Data/tidy_sent_data_NPR.csv")
+# data_WaPo <- load_data("Data/Tidy_Data/tidy_sent_data_Washington_Post.csv")
 
 occ_by_time <- load_data("Data/Tidy_Data/tidy_occ_by_time_data.csv")
 
@@ -92,9 +92,14 @@ ui <- fluidPage(
       
       # Show a plot of the generated distribution
       mainPanel(
+        h4("Abstract"),
+        p("\tThis project aimed to determine the movement of entity sentiment in articles over time. Due to the shift from print publications with newspapers and magazines to online publications, the team was able to analytically examine the writing. Since online publications lead to shorter news cycles, it becomes more difficult to determine objectivity in given time. Due to this, our group has decided to provide some degree of media analysis in order to produce a more contextualized view of article polarity. Our analysis combines entity recognition and sentiment analysis to produce an indicator of an author's opinion towards a topic. The final result of the project reads in a plain-text article and produces a mapping of each named entity to a numeric sentiment score. For an extension, we analyze and compare sentiment of different publications over a time period between 2015 and 2017 to determine how sentiment towards popular entities may vary over time"),
+        strong("Contributors:"),
+        p("Austin Egri, Gabe Orlanski, Stephen Utley, Alex Zuckut"),
+        p(em("ategri@mac.com, {egria, orlang2, utleys, zuckua}@rpi.edu")),
         # plotOutput("occurences_plot"),
-         textOutput("testvar1"),
-         textOutput("testvar2"),
+         # textOutput("testvar1"),
+         # textOutput("testvar2"),
          plotOutput("sent_plot"),
          plotOutput("occ_plot")
       )
