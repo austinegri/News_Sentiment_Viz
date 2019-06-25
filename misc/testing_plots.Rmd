@@ -1,0 +1,198 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code. 
+
+Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Cmd+Shift+Enter*. 
+
+```{r}
+# Load packages
+library(lubridate)
+library(ggplot2)
+library(scales)
+```
+
+
+```{r}
+# load data
+occurences_all = read.csv("../app/data/Original_Data/highestOccurancesToSentimentBreitbart.csv", header= TRUE, row.names=1, sep = ';', na.strings= "None", stringsAsFactors = FALSE)
+```
+
+
+```{r}
+# change dates to %m%y fromat
+name_rem <- function(x){
+  return(substr(x, 2, nchar(x)))
+}
+names(occurences_all)[2:ncol(occurences_all)] <- sapply(names(occurences_all)[2:ncol(occurences_all)], name_rem )
+
+```
+
+```{r}
+# load Trump/Clinton data
+sentiment_1 <- t(occurences_all["Trump", (2:ncol(occurences_all))])
+sentiment_2 <- t(occurences_all["Clinton", (2:ncol(occurences_all))])
+
+# parse dates from %m%y format
+# dates <- parse_date_time(names(occurences_all)[2:ncol(occurences_all)], "%m%y")
+dates <- as.Date(parse_date_time(names(occurences_all)[2:ncol(occurences_all)], "%m%y"))
+
+# df_plot <- data.frame(sentiment_1, dates)
+df_plot <- data.frame(sentiment_1, sentiment_2, dates)
+print(head(df_plot))
+
+# sort
+# df_plot[order(df_plot$dates), ]
+# print(head(df_plot))
+
+```
+
+Generic variable names for formatting
+```{r}
+e1 <- "Trump"
+e2 <- "Clinton"
+title_= paste("Sentiment over Time (", e1, " and ", e2, ")", sep= "")
+title_
+```
+
+
+```{r}
+# ggplot initializer
+ggplot(data= df_plot) +
+  
+  # use white background
+  theme_bw() + 
+  
+  # plot lines for entities
+  geom_line(aes_string(x= "dates", y= e1, color= factor(e1))) +
+  geom_line(aes_string(x= "dates", y= e2, color= factor(e2))) +
+  
+  # plot points for entities
+  geom_point(aes_string(x= "dates", y= e1,  colour = factor(e1))) +
+  geom_point(aes_string(x= "dates", y= e2,  colour = factor(e2))) +
+  
+  
+  # setting color scaling for legend labels
+  # scale_color_manual(values = c(
+  #                   "Trump" = 'orange',
+  #                   "Clinton" = 'blue')) +
+  scale_color_manual(values = c('blue', 'orange')) +
+  
+  # y range from [-1,+1]
+  scale_y_continuous(limits= c(-.6,+.6)) +
+  
+  # label axes and Title
+  labs(x= "Date",
+       y= expression(paste("Sentiment Value [-1,+1]")), #expression(paste("Sentiment Value (range [-1,+1])")),
+       title= title_,
+       color= "Entities") +
+  
+  # format x-axis ticks
+  theme(axis.text.x= element_text(size= 6,
+                                   vjust= .5,
+                                   angle= 45)) +
+  # x-axis scaling (labels every x months, formatted e.g. Jan '14)
+  scale_x_date(date_breaks= "2 months",
+               labels= date_format("%b '%y"))
+  
+
+```
+
+
+
+
+Testing new plotting csvs here
+```{r}
+# using new tidy format data
+
+data <- read.csv("../app/data/Tidy_Data/tidy_sent_data_Breitbart.csv", header= TRUE, row.names=1, sep = ',', na.strings= "None", stringsAsFactors = FALSE)
+# data$dates <- as.Date(parse_date_time(names(occurences_all)[2:ncol(occurences_all)], "%m%y"))
+data$dates <- as.Date(parse_date_time(data$dates, "%m%y"))
+data$dates
+```
+
+```{r}
+# make ggplot
+# ggplot initializer
+ggplot(data= data) +
+  
+  # use white background
+  theme_bw() + 
+  
+  # plot lines for entities
+  geom_line(aes_string(x= "dates", y= e1, color= factor(e1))) +
+  geom_line(aes_string(x= "dates", y= e2, color= factor(e2))) +
+  
+  # plot points for entities
+  geom_point(aes_string(x= "dates", y= e1,  colour = factor(e1))) +
+  geom_point(aes_string(x= "dates", y= e2,  colour = factor(e2))) +
+  
+  
+  # setting color scaling for legend labels
+  # scale_color_manual(values = c(
+  #                   "Trump" = 'orange',
+  #                   "Clinton" = 'blue')) +
+  scale_color_manual(values = c('blue', 'orange')) +
+  
+  # y range from [-1,+1]
+  scale_y_continuous(limits= c(-.6,+.6)) +
+  
+  # label axes and Title
+  labs(x= "Date",
+       y= expression(paste("Sentiment Value [-1,+1]")), #expression(paste("Sentiment Value (range [-1,+1])")),
+       title= title_,
+       color= "Entities") +
+  
+  # format x-axis ticks
+  theme(axis.text.x= element_text(size= 6,
+                                   vjust= .5,
+                                   angle= 45)) +
+  # x-axis scaling (labels every x months, formatted e.g. Jan '14)
+  scale_x_date(date_breaks= "2 months",
+               labels= date_format("%b '%y"))
+  
+```
+
+
+```{r}
+# colnames(data_)
+```
+
+```{r}
+occ_by_time <- read.csv("../app/data/Tidy_Data/tidy_occ_by_time_data.csv", header= TRUE, 
+                       row.names=1, sep = ',', na.strings= "None", stringsAsFactors = TRUE)
+print(head(occ_by_time$Trump))
+occ_by_time$dates <- as.Date(parse_date_time(occ_by_time$dates, "%m%y"))
+# occ_by_time
+```
+
+
+```{r}
+e1 <- "Trump"
+e2 <- "Clinton"
+p2 <- ggplot(data= as.data.frame(occ_by_time)) +
+         
+         # use white background
+         theme_bw() +
+         
+         # plot lines for entities
+         geom_line( aes_string(x= "dates", y= e1, color= factor(e1))) +
+         geom_line( aes_string(x= "dates", y= e2, color= factor(e2))) +
+         #
+         # plot points for entities
+         geom_point( aes_string(x= "dates", y= e1,  colour = factor(e1))) +
+         geom_point( aes_string(x= "dates", y= e2,  colour = factor(e2))) +
+         
+         scale_color_manual(values = c('blue4', 'darkorange3'))
+      print(p2)
+```
+
+
+Add a new chunk by clicking the *Insert Chunk* button on the toolbar or by pressing *Cmd+Option+I*.
+
+When you save the notebook, an HTML file containing the code and output will be saved alongside it (click the *Preview* button or press *Cmd+Shift+K* to preview the HTML file). 
+
+The preview shows you a rendered HTML copy of the contents of the editor. Consequently, unlike *Knit*, *Preview* does not run any R code chunks. Instead, the output of the chunk when it was last run in the editor is displayed.
+
